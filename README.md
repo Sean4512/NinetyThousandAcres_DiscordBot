@@ -21,27 +21,6 @@
 - PyYAML
 - SQLite
 
-## 專案結構
-
-```
-.
-├── main.py                 # 進入點：載入設定、初始化資料庫、啟動 Bot
-├── bot/                    # Discord Bot 主體
-│   ├── client.py           # 建立 Bot 實例
-│   ├── commands/           # 各項指令（玩家註冊、賽事報名、問卷等）
-│   ├── core/               # Cog / Modal / View 基底類別
-│   └── test_commands/      # 測試用指令
-├── config/                 # 設定載入與檢查
-├── cfg/                    # YAML 欄位與擴充設定
-├── database/               # 資料庫連線、初始化與 SQL 腳本
-│   ├── repositories/       # 資料存取層
-│   └── sql/                # create / queries / insert / delete SQL
-├── services/               # 商業邏輯層
-├── utils/                  # 共用工具（logger、例外、型別等）
-├── tests/                  # 測試
-└── requirements.txt        # 相依套件
-```
-
 ## 安裝與執行
 
 ### 1. 建立虛擬環境並安裝相依套件
