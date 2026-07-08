@@ -1,0 +1,117 @@
+﻿+-- bot
+|   +-- commands
+|   |   +-- match_signup
+|   |   |   +-- match_signup_cog.py
+|   |   |   +-- match_signup_flow.py
+|   |   |   +-- __init__.py
+|   |   +-- player_register
+|   |   |   +-- player_register_cog.py
+|   |   |   +-- player_register_flow.py
+|   |   |   +-- __init__.py
+|   |   +-- questionnaire
+|   |   |   +-- flow.py
+|   |   |   +-- modal.py
+|   |   |   +-- view.py
+|   |   |   +-- __init__.py
+|   |   +-- admin_test.py
+|   |   +-- guild_setup.py
+|   |   +-- MatchSignup.py
+|   |   +-- ping.py
+|   |   +-- __init__.py
+|   +-- core
+|   |   +-- base_cog.py
+|   |   +-- base_modal.py
+|   |   +-- base_view.py
+|   |   +-- utils.py
+|   |   +-- __init__.py
+|   +-- test_commands
+|   |   +-- ShowComponentObject.py
+|   |   +-- test_command.py
+|   |   +-- __init__.py
+|   +-- client.py
+|   +-- __init__.py
++-- cfg
+|   +-- bot_extensions.yaml
+|   +-- create_match_signup_fields.yaml
+|   +-- match_signup_fields.yaml
+|   +-- player_register_fields.yaml
++-- config
+|   +-- check_settings.py
+|   +-- load_discord_bot_extensions.py
+|   +-- questionnaire_settings.py
+|   +-- settings.py
+|   +-- __init__.py
++-- data
+|   +-- db
+|   |   +-- NinetyThousandAcres_discord.db
++-- database
+|   +-- repositories
+|   |   +-- core.py
+|   |   +-- guild_repository.py
+|   |   +-- match_signup_repository.py
+|   |   +-- player_profiles_repository.py
+|   +-- sql
+|   |   +-- create
+|   |   |   +-- create_guild_configs.sql
+|   |   |   +-- create_guild_profiles.sql
+|   |   |   +-- create_match_signup_forms.sql
+|   |   |   +-- create_match_signup_forms_answers.sql
+|   |   |   +-- create_match_signup_forms_participants.sql
+|   |   |   +-- create_player_profiles.sql
+|   |   |   +-- create_player_profile_answers.sql
+|   |   +-- delete
+|   |   |   +-- delete_match_signup_forms.sql
+|   |   |   +-- delete_match_signup_forms_participants.sql
+|   |   |   +-- delete_player_profiles_by_id.sql
+|   |   +-- queries
+|   |   |   +-- exists_guild_profile_by_guild_id.sql
+|   |   |   +-- exists_match_signup_forms_participants_by_id.sql
+|   |   |   +-- get_guild_config_by_id.sql
+|   |   |   +-- get_match_signup_forms_by_id.sql
+|   |   |   +-- get_match_signup_forms_participants_by_id.sql
+|   |   |   +-- get_match_signup_forms_player_answers.sql
+|   |   |   +-- get_player_profiles_by_id.sql
+|   |   |   +-- get_player_profile_answers_by_id.sql
+|   |   +-- sert
+|   |   |   +-- insert_guild_profiles.sql
+|   |   |   +-- insert_match_signup_forms.sql
+|   |   |   +-- insert_match_signup_forms_participants.sql
+|   |   |   +-- insert_match_signup_forms_player_answers.sql
+|   |   |   +-- insert_player_profile.sql
+|   |   |   +-- insert_player_profile_answers_repository.sql
+|   |   |   +-- upsert_guild_config.sql
+|   +-- connection.py
+|   +-- init_db.py
+|   +-- __init__.py
++-- integrations
++-- logs
+|   +-- bot.log
+|   +-- main.log
++-- services
+|   +-- auth_service.py
+|   +-- guild_service.py
+|   +-- match_signup_service.py
+|   +-- player_profiles_service.py
+|   +-- __init__.py
++-- tests
++-- utils
+|   +-- exceptions
+|   |   +-- discord_exceptions.py
+|   |   +-- __init__.py
+|   +-- Types
+|   |   +-- database_types.py
+|   |   +-- questionnaire.py
+|   +-- logger.py
+|   +-- paths.py
+|   +-- questionnaire_field.py
+|   +-- sql_loader.py
+|   +-- status.py
+|   +-- __init__.py
++-- .env
++-- .gitignore
++-- AGENTS.md
++-- main.py
++-- note.txt
++-- requirements.txt
++-- structure.txt
+

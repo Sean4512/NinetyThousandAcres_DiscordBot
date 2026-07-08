@@ -1,0 +1,20 @@
+
+field_name: 創建報名表
+
+destination: direct_message
+visibility: private
+
+field_list:
+  - key: match_signup_title
+    label: 標題
+    component_type: text
+    placeholder: 請填寫一個標題
+    max_length: 50
+    required: true
+
+  - key: match_signup_content
+    label: 內容
+    component_type: text
+    placeholder: 請填寫一個標題
+    max_length: 100
+    required: false

@@ -1,0 +1,11 @@
+
+# Core
+python-dotenv
+PyYAML
+
+# Discord Bot
+discord.py
+
+
+
+

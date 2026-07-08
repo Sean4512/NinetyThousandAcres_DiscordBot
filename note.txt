@@ -1,0 +1,190 @@
+
+
+NinetyThousandAcres_DiscordBot/
+│
+├─ .idea/                     # PyCharm 專案設定（可存在，但不建議當成正式專案內容的一部分）
+├─ .venv/                     # 虛擬環境
+├─ .gitignore
+├─ README.md
+├─ requirements.txt
+├─ .env                       # 環境變數（不要上傳 git）
+├─ main.py                    # 程式入口
+│
+├─ config/                    # 設定相關
+│  ├─ __init__.py
+│  ├─ settings.py             # 讀取 .env、集中管理設定
+│  └─ logging_config.py       # 日誌設定（之後可加）
+│
+├─ bot/                       # Discord Bot 主體
+│  ├─ __init__.py
+│  ├─ client.py               # 建立 bot / intents / 啟動邏輯
+│  ├─ events/                 # 事件處理
+│  │  ├─ __init__.py
+│  │  └─ ready.py
+│  ├─ commands/               # 指令功能
+│  │  ├─ __init__.py
+│  │  ├─ ping.py
+│  │  └─ form.py
+│  └─ views/                  # Discord UI，例如按鈕、選單、Modal
+│     ├─ __init__.py
+│     └─ form_view.py
+│
+├─ database/                  # 資料庫相關
+│  ├─ __init__.py
+│  ├─ connection.py           # 資料庫連線管理
+│  ├─ models/                 # 資料表結構 / ORM 類別（之後可加）
+│  │  ├─ __init__.py
+│  │  └─ guild_config.py
+│  ├─ repositories/           # 對資料表進行 CRUD 的地方
+│  │  ├─ __init__.py
+│  │  └─ guild_repository.py
+│  └─ migrations/             # 之後若導入 migration 可放這裡
+│
+├─ services/                  # 商業邏輯層
+│  ├─ __init__.py
+│  ├─ form_service.py         # 問卷建立/更新/刪除流程
+│  ├─ guild_service.py        # 伺服器資料處理
+│  └─ auth_service.py         # bot 驗證、授權邏輯
+│
+├─ integrations/              # 外部服務串接
+│  ├─ __init__.py
+│  ├─ discord_api/
+│  │  ├─ __init__.py
+│  │  └─ helper.py
+│  └─ google_apps_script/
+│     ├─ __init__.py
+│     ├─ client.py            # 呼叫 Apps Script Web App / API
+│     └─ schemas.py           # request / response 格式整理
+│
+├─ utils/                     # 共用工具
+│  ├─ __init__.py
+│  ├─ paths.py
+│  ├─ helpers.py
+│  └─ validators.py
+│
+├─ data/                      # 本地資料
+│  ├─ db/
+│  │  └─ app.db              # sqlite 資料庫檔
+│  ├─ temp/
+│  └─ cache/
+│
+├─ logs/                      # log 輸出
+│  └─ bot.log
+│
+└─ tests/                     # 測試
+   ├─ __init__.py
+   ├─ test_database.py
+   └─ test_form_service.py
+
+
+
+
+NinetyThousandAcres_DiscordBot/
+│
+├── main.py
+│   ├── def run_discord_bot(bot: commands.Bot)
+│   └── def main()
+│
+└── bot/
+    ├── client.py
+    │   ├── class NinetyThousandAcresBot(commands.Bot)
+    │   │   ├── def __init__(self, **kwargs)
+    │   │   ├── def setup_hook(self)
+    │   │   └── def on_ready(self)
+    │   └── def create_bot() -> commands.Bot
+    │
+    ├── core/
+    │   ├── utils.py
+    │   │   ├── 全域變數 DEFAULT_INTERACTION_ERROR_MESSAGE
+    │   │   ├── def send_interaction_message(interaction: discord.Interaction, message: str, *, ephemeral: bool)
+    │   │   ├── class InteractionResponderMixin
+    │   │   │   └── def send_interaction_message(self, interaction: discord.Interaction, message: str, *, ephemeral: bool)
+    │   │   └── def ensure_allowed_user(interaction: discord.Interaction, allowed_user_id: int, *, message: str, ephemeral: bool)
+    │   │
+    │   ├── base_cog.py
+    │   │   └── class BaseCog(commands.Cog, InteractionResponderMixin)
+    │   │       ├── def __init__(self, bot: commands.Bot)
+    │   │       └── def cog_app_command_error(self, interaction: discord.Interaction, error: app_commands.AppCommandError)
+    │   │
+    │   ├── base_view.py
+    │   │   └── class BaseView(discord.ui.View, InteractionResponderMixin)
+    │   │       ├── def __init__(self, *, allowed_user_id: int | None, timeout_message: str, **kwargs)
+    │   │       ├── def set_message(self, message: discord.Message | None)
+    │   │       ├── def interaction_check(self, interaction: discord.Interaction)
+    │   │       ├── def on_timeout(self)
+    │   │       ├── def finish_view(self)
+    │   │       └── def on_error(self, interaction: discord.Interaction, error: app_commands.AppCommandError, item: discord.ui.Item)
+    │   │
+    │   └── base_modal.py
+    │       └── class BaseModal(discord.ui.Modal, InteractionResponderMixin)
+    │           ├── 全域變數 default_error_message
+    │           ├── def __init__(self, **kwargs)
+    │           └── def on_error(self, interaction: discord.Interaction, error: Exception)
+    │
+    └── commands/
+        ├── player_register/
+        │   ├── player_register_cog.py
+        │   │   ├── class PlayerRegisterCog(BaseCog)
+        │   │   │   ├── def cog_load(self)
+        │   │   │   ├── def start_player_register(self, interaction: discord.Interaction, discord_id: str)
+        │   │   │   ├── def player_register(self, interaction: discord.Interaction)
+        │   │   │   ├── def admin_player_register(self, interaction: discord.Interaction, user: discord.User)
+        │   │   │   ├── def del_player_data(self, interaction: discord.Interaction, user: discord.User)
+        │   │   │   └── def player_register_panel(self, interaction: discord.Interaction)
+        │   │   └── class PlayerRegisterEntryView(BaseView)
+        │   │       ├── def __init__(self, *, cog: PlayerRegisterCog)
+        │   │       └── def player_register_button(self, interaction: discord.Interaction, button: discord.ui.Button)
+        │   │
+        │   └── player_register_flow.py
+        │       └── class PlayerRegisterFlow(QuestionnaireFlow)
+        │           ├── def __init__(self, *, user: discord.User | discord.Member, guild_id: str, discord_id: str, questionnaire: Questionnaire, timeout_seconds: int, is_update: bool, initial_answers: dict | None)
+        │           └── def on_completed(self, *, interaction: discord.Interaction, result: QuestionnaireResult)
+        │
+        ├── match_signup/
+        │   ├── match_signup_cog.py
+        │   │   └── class MatchSignupCog(BaseCog)
+        │   │       ├── def cog_load(self)
+        │   │       ├── def start_create_match_signup(self, interaction: discord.Interaction, match_signup_config)
+        │   │       └── def create_match_signup_forms(self, interaction: discord.Interaction)
+        │   │
+        │   └── match_signup_flow.py
+        │       ├── def format_table(headers: list[str], rows: list[list[str]]) -> str
+        │       ├── def get_member_by_discord_id(guild: discord.Guild, discord_id: str) -> discord.Member | None
+        │       ├── class PlayerMatchSignupFlow(QuestionnaireFlow)
+        │       │   ├── def __init__(self, *, user: discord.User | discord.Member, guild_id: str, thread_id: str, discord_id: str, questionnaire: Questionnaire, timeout_seconds: int, is_update: bool, initial_answers: dict | None)
+        │       │   └── def on_completed(self, *, interaction: discord.Interaction, result: QuestionnaireResult)
+        │       ├── class PlayerMatchSignupView(BaseView)
+        │       │   ├── def __init__(self)
+        │       │   ├── def player_match_signup_button(self, interaction: discord.Interaction, button: discord.ui.Button)
+        │       │   ├── def cancel_player_match_signup_button(self, interaction: discord.Interaction, button: discord.ui.Button)
+        │       │   ├── def delete_match_signup_button(self, interaction: discord.Interaction, button: discord.ui.Button)
+        │       │   └── def show_match_signup_player_list_button(self, interaction: discord.Interaction, button: discord.ui.Button)
+        │       └── class CreateMatchSignupFlow(QuestionnaireFlow)
+        │           ├── def __init__(self, *, user: discord.User | discord.Member, guild: discord.Guild, discord_id: str, questionnaire: Questionnaire, timeout_seconds: int, is_update: bool, initial_answers: dict | None)
+        │           ├── def on_completed(self, *, interaction: discord.Interaction, result: QuestionnaireResult)
+        │           └── def create_match_signup(self, interaction: discord.Interaction, result: QuestionnaireResult, guild: discord.Guild)
+        │
+        └── questionnaire/
+            └── flow.py
+                └── class QuestionnaireFlow(ABC, InteractionResponderMixin)
+                    ├── def __init__(self, *, user: discord.User | discord.Member, questionnaire: Questionnaire, timeout_seconds: int, initial_answers: dict[str, Any] | None, start_button_label: str, next_button_label: str, cancel_button_label: str, completed_message: str, cancelled_message: str)
+                    ├── def is_ended(self) -> bool
+                    ├── def cancel(self, *, interaction: discord.Interaction, source_message: discord.Message | None)
+                    ├── def on_cancelled(self, *, interaction: discord.Interaction, answers: dict[str, Any])
+                    ├── def allowed_user_id(self) -> int
+                    ├── def start(self, *, interaction: discord.Interaction) -> discord.Message
+                    ├── def open_step_modal(self, *, interaction: discord.Interaction, step_index: int, source_message: discord.Message | None)
+                    ├── def advance_after_step_completed(self, *, interaction: discord.Interaction, step_index: int, source_message: discord.Message | None)
+                    ├── def finish(self, *, interaction: discord.Interaction)
+                    ├── def on_completed(self, *, interaction: discord.Interaction, result: QuestionnaireResult)
+                    ├── def send_step_button_message(self, *, interaction: discord.Interaction, step_index: int, button_label: str, embed: discord.Embed | None) -> discord.Message
+                    ├── def disable_step_message(self, *, source_message: discord.Message | None, step_index: int)
+                    ├── def build_start_embed(self) -> discord.Embed
+                    ├── def send_questionnaire_message(self, *, interaction: discord.Interaction, content: str | None, embed: discord.Embed | None, view: discord.ui.View | None) -> discord.Message
+                    └── def validate_interaction_destination(self, interaction: discord.Interaction)
+
+
+
+
+
+
