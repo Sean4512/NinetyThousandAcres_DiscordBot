@@ -1,0 +1,87 @@
+field_name: 註冊表單
+
+destination: direct_message
+visibility: private
+
+field_list:
+  - key: game_uid
+    label: UID
+    component_type: text
+    placeholder: 請填寫你的九萬畝 UID
+    max_length: 50
+    required: true
+    validator: int
+
+  - key: game_name
+    label: 遊戲名稱
+    component_type: text
+    placeholder: 請填寫你的九萬畝遊戲名稱
+    max_length: 50
+    required: true
+    validator: none
+
+  - key: occupation
+    label: 職業
+    component_type: text
+    placeholder: 請填寫你的現實職業名稱
+    max_length: 50
+    required: true
+    validator: none
+
+  - key: country
+    label: 國家
+    component_type: text
+    placeholder: 請填寫你的現實所居住的國家
+    max_length: 50
+    required: true
+    validator: none
+
+  - key: age
+    label: 年齡
+    component_type: text
+    placeholder: 請填寫你的現實年齡
+    max_length: 3
+    required: false
+    validator: int
+
+  - key: gender
+    label: 性別
+    component_type: text
+    placeholder: 請輸入 male / female / other / 男 / 女
+    max_length: 20
+    required: false
+    validator: choice
+    choices:
+      - male
+      - female
+      - other
+      - 男
+      - 女
+
+  - key: is_single
+    label: 單身
+    component_type: text
+    placeholder: Y / N / 是 / 否
+    max_length: 5
+    required: false
+    validator: yes_no
+
+  - key: online_time
+    label: 上線時間
+    component_type: paragraph
+    placeholder: 請填寫你的上線時間，例如 "8pm-12pm" 或複數時段
+    max_length: 100
+    required: false
+    validator: none
+
+  - key: notes
+    label: 其他備註
+    component_type: paragraph
+    placeholder: 可以介紹自己，或填寫自己對於九萬畝的想法
+    max_length: 300
+    required: false
+    validator: none
+
+
+
+

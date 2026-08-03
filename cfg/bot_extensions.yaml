@@ -1,0 +1,55 @@
+
+commands:
+  - name: bot.commands.debug
+    enabled: true
+    description: ""
+#  - name: bot.commands.ping
+#    enabled: true
+#    description: 測試 bot 是否正常運作
+#
+  - name: bot.commands.guild_setup
+    enabled: true
+    description: 伺服器的初始化
+
+  - name: bot.commands.permission
+    enabled: true
+    description: 檢測權限
+
+  - name: bot.commands.player.registration
+    enabled: true
+    description: 玩家註冊
+
+  - name: bot.commands.match_signup
+    enabled: true
+    description: 戰爭報名相關
+
+
+
+
+
+
+#
+#  - name: bot.commands.admin_test
+#    enabled: true
+#    description: 驗證身份組是否有權限
+#
+#  - name: bot.commands.register
+#    enabled: false
+#    description: 在當前頻道建立一個報名面板
+#
+#  - name: bot.commands.player_register
+#    enabled: true
+#    description: 玩家註冊
+#
+#  - name: bot.commands.match_signup
+#    enabled: true
+#    description: 遊戲報名
+#
+#
+#  - name: bot.test_commands.test_command
+#    enabled: true
+#    description: 練習寫Cog
+#
+#  - name: bot.test_commands.ShowComponentObject
+#    enabled: true
+#    description: 顯示物件, 開發專用

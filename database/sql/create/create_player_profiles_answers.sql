@@ -1,0 +1,19 @@
+CREATE TABLE IF NOT EXISTS player_profiles_answers (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+
+    guild_id TEXT NOT NULL,
+    discord_id TEXT NOT NULL,
+
+    field_key TEXT NOT NULL,
+    field_label TEXT NOT NULL,
+    answer TEXT,
+
+    submitted_at TEXT NOT NULL,
+    updated_at TEXT NOT NULL,
+
+    UNIQUE(guild_id, discord_id, field_key),
+
+    FOREIGN KEY (guild_id, discord_id)
+        REFERENCES player_profiles(guild_id, discord_id)
+        ON DELETE CASCADE
+);

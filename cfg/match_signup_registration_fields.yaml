@@ -1,0 +1,20 @@
+field_name: 報名表單
+
+destination: direct_message
+visibility: private
+
+field_list:
+  - key: exclusive_arms
+    label: 專武
+    component_type: text
+    placeholder: 請填寫你的想要玩的第一個專武
+    max_length: 10
+    required: true
+
+  - key: is_farmer
+    label: 資源號
+    component_type: text
+    placeholder: 是資源號嗎? Y / N / 是 / 否
+    max_length: 5
+    required: true
+    validator: yes_no

@@ -1,0 +1,7 @@
+
+field_name: 初始化伺服器
+
+destination: direct_message
+visibility: private
+
+field_list: []
