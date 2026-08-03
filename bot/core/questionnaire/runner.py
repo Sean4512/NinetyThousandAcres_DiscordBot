@@ -96,6 +96,7 @@ class _QuestionnaireSession(InteractionResponderMixin):
 
         # 複製一份，避免直接改到呼叫端傳進來的 dict。
         self.answers: dict[str, Any] = dict(initial_answers or {})
+
         self.active_views: list[discord.ui.View] = []
 
         self.is_completed = False
@@ -128,13 +129,31 @@ class _QuestionnaireSession(InteractionResponderMixin):
     # 流程控制
     # ------------------------------------------------------------------ #
     async def start(self, interaction: discord.Interaction) -> None:
+        delivery = self.questionnaire.delivery
+
+        # 問卷走私訊時，觸發的 interaction（例如群組斜線指令）不會被後續流程碰到，
+        # 必須自己在 3 秒內簽收，否則 Discord 會顯示「該申請未受回應」。
+        # 用 defer() 只簽收、不宣稱任何事，內容與結果稍後用 followup 回報。
+        if delivery.is_direct_message and not interaction.response.is_done():
+            await interaction.response.defer(ephemeral=True)
+
         embed = self._build_start_embed()
+        # 若私訊送不出去（使用者關閉私訊），user.send() 會丟 discord.Forbidden，
+        # 這裡不攔截，交給 cog 的 handle_app_error 統一回覆「無法私訊你」，
+        # 就不會誤報「已私訊給你」，也避免重複處理。
         await self._send_step_button_message(
             interaction,
             step_index=0,
             button_label=self.runner.start_button_label,
             embed=embed,
         )
+
+        # 私訊確認送達後，才在使用者「輸入指令的地方」回報。
+        if delivery.is_direct_message:
+            await interaction.followup.send(
+                "📩 已將表單私訊給你，請查看你的私訊。",
+                ephemeral=True,
+            )
 
     async def open_step_modal(
         self,

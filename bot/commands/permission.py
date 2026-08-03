@@ -19,7 +19,7 @@ from utils.exceptions.discord_exceptions import GuildRequiredError
 
 class PermissionCog(BaseCog):
 
-    @app_commands.command(name="check-admin", description="檢查你是否具有本伺服器的管理員身分組")
+    @app_commands.command(name="check_admin", description="檢查你是否具有本伺服器的管理員身分組")
     @app_commands.guild_only()
     @is_guild_admin()
     async def check_admin(self, interaction: discord.Interaction,):

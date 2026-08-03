@@ -12,8 +12,13 @@ from discord.ext import commands
 from utils.logger import get_discord_bot_logger
 
 from .cog import PlayerRegistrationCog
+from .admin_cog import PlayerRegistrationAdminCog
 
 async def setup(bot: commands.Bot):
     discord_bot_logger = get_discord_bot_logger()
+
     discord_bot_logger.debug("loading PlayerRegistration Cog...")
     await bot.add_cog(PlayerRegistrationCog(bot))
+
+    discord_bot_logger.debug("loading PlayerRegistrationAdmin Cog...")
+    await bot.add_cog(PlayerRegistrationAdminCog(bot))

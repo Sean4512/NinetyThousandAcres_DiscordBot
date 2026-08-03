@@ -91,7 +91,7 @@ class GuildSetupCog(BaseCog):
         registration_forum = await guild.create_forum(**kwargs)
         return registration_forum
 
-    @app_commands.command(name="update_registration_forum", description="初始化機器人，每一個伺服器都需要設定一次")
+    @app_commands.command(name="update_registration_forum", description="更新機器人的資料")
     @app_commands.guild_only()
     async def update_registration_forum(
         self,

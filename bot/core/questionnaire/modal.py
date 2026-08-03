@@ -60,7 +60,9 @@ class QuestionnaireStepModal(BaseModal):
 
     def _get_default_value(self, field_key: str) -> str | None:
         """把 session 內既有的答案轉成 TextInput 可用的字串。"""
+
         value = self.session.answers.get(field_key)
+
         if value is None:
             return None
         if isinstance(value, bool):

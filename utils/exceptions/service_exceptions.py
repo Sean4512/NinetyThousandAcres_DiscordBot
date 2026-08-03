@@ -22,9 +22,18 @@ class GuildNotSetupError(BaseError):
     _message: str = "此伺服器尚未初始化，請先使用 /setup 進行設定。"
 
 
+class PlayerAlreadyRegisteredError(BaseError):
+    _message: str = "已經註冊過了，若要修改資料請使用更新指令。"
+
+class PlayerNotRegisteredError(BaseError):
+    _message: str = "尚未註冊，請先使用 /player_registration 註冊。"
+
+
 G_SERVICE_EXCEPTIONS = [
     GuildAlreadySetupError,
     GuildNotSetupError,
+    PlayerAlreadyRegisteredError,
+    PlayerNotRegisteredError
 ]
 
 
