@@ -79,7 +79,7 @@ class MatchSignupFormCog(BaseCog):
         self.questionnaire_runner = DiscordQuestionnaireRunner()
 
     match_signup = MatchSignupCreationGroup(
-        name="match_signup",
+        name="match_signup_admin",
         description="管理員 建立戰爭報名的相關指令",
         guild_only=True,
     )
