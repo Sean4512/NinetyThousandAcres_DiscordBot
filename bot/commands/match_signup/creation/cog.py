@@ -19,7 +19,7 @@ from services.match_signup.form_service import MatchSignupConfigKeys, MatchSignu
 from utils.exceptions.discord_exceptions import GuildRequiredError, GuildNotInitializedError
 
 
-class MatchSignupCreationGroup(app_commands.Group):
+class MatchSignupAdminGroup(app_commands.Group):
     async def interaction_check(self, interaction: discord.Interaction) -> bool:
 
         guild = interaction.guild
@@ -78,13 +78,13 @@ class MatchSignupFormCog(BaseCog):
         super().__init__(bot)
         self.questionnaire_runner = DiscordQuestionnaireRunner()
 
-    match_signup = MatchSignupCreationGroup(
+    match_signup_admin = MatchSignupAdminGroup(
         name="match_signup_admin",
         description="管理員 建立戰爭報名的相關指令",
         guild_only=True,
     )
 
-    @match_signup.command(name="create", description="幫指定玩家建立註冊資料")
+    @match_signup_admin.command(name="create", description="幫指定玩家建立註冊資料")
     async def create_match(self, interaction: discord.Interaction):
 
         registration_forum_id = GuildService.get_config_value(interaction.guild.id, GuildConfigKeys.REGISTRATION_FORUM_ID)
@@ -145,7 +145,7 @@ class MatchSignupFormCog(BaseCog):
             content=f"{thread.mention}"
         )
 
-    @match_signup.command(name="delete", description="刪除報名表")
+    @match_signup_admin.command(name="delete", description="刪除報名表")
     async def delete(
         self,
         interaction: discord.Interaction,
