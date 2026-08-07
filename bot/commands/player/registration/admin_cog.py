@@ -9,16 +9,16 @@
 
 import discord
 from discord import app_commands
-from discord.ext import commands
 
 from bot.core import BaseCog, DiscordQuestionnaireRunner
 from bot.core.permissions import ensure_admin_interaction
 from config.questionnaire_settings import get_player_register_questionnaire
 
+from services.guild_service import GuildService
 from services.player import PlayerRegistrationService
 
 from utils.logger import get_discord_bot_logger
-from utils.exceptions.discord_exceptions import GuildRequiredError
+from utils.exceptions.discord_exceptions import GuildRequiredError, GuildNotInitializedError
 from utils.exceptions.service_exceptions import (
     PlayerAlreadyRegisteredError,
     PlayerNotRegisteredError,
@@ -27,7 +27,17 @@ from utils.exceptions.service_exceptions import (
 
 class PlayerAdminGroup(app_commands.Group):
     async def interaction_check(self, interaction: discord.Interaction) -> bool:
-        return await ensure_admin_interaction(interaction)
+        # return await ensure_admin_interaction(interaction)
+        guild = interaction.guild
+        if guild is None:
+            raise GuildRequiredError()
+
+        if not GuildService.is_initialized(interaction.guild.id):
+            raise GuildNotInitializedError()
+
+        if not await ensure_admin_interaction(interaction):
+            return False
+        return True
 
 class PlayerRegistrationAdminCog(BaseCog):
 
@@ -45,8 +55,8 @@ class PlayerRegistrationAdminCog(BaseCog):
     async def register(self, interaction: discord.Interaction, member: discord.Member,):
 
         guild = interaction.guild
-        if guild is None:
-            raise GuildRequiredError()
+        # if guild is None:
+        #     raise GuildRequiredError()
 
         if PlayerRegistrationService.is_registered(guild.id, member.id):
             raise PlayerAlreadyRegisteredError()
@@ -65,8 +75,8 @@ class PlayerRegistrationAdminCog(BaseCog):
     async def update(self, interaction: discord.Interaction, member: discord.Member):
 
         guild = interaction.guild
-        if guild is None:
-            raise GuildRequiredError()
+        # if guild is None:
+        #     raise GuildRequiredError()
 
         if not PlayerRegistrationService.is_registered(guild.id, member.id):
             raise PlayerNotRegisteredError()
@@ -86,8 +96,8 @@ class PlayerRegistrationAdminCog(BaseCog):
     async def delete(self, interaction: discord.Interaction, member: discord.Member):
 
         guild = interaction.guild
-        if guild is None:
-            raise GuildRequiredError()
+        # if guild is None:
+        #     raise GuildRequiredError()
 
         if not PlayerRegistrationService.is_registered(guild.id, member.id):
             raise PlayerNotRegisteredError()

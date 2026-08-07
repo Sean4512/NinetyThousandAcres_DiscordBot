@@ -12,7 +12,21 @@ from discord import app_commands
 
 from bot.core import BaseCog, DiscordQuestionnaireRunner
 from config.questionnaire_settings import get_match_signup_questionnaire
+from services.guild_service import GuildService
+from utils.exceptions.discord_exceptions import GuildRequiredError, GuildNotInitializedError
 
+
+class MatchSignupRegistrationGroup(app_commands.Group):
+    async def interaction_check(self, interaction: discord.Interaction) -> bool:
+
+        guild = interaction.guild
+        if guild is None:
+            raise GuildRequiredError()
+
+        if not GuildService.is_initialized(interaction.guild.id):
+            raise GuildNotInitializedError()
+
+        return True
 
 class MatchSignupRegistrationCog(BaseCog):
 
@@ -21,10 +35,5 @@ class MatchSignupRegistrationCog(BaseCog):
         self.runner = DiscordQuestionnaireRunner()
 
 
-    @app_commands.command(name="match_signup", description="戰爭報名", )
-    @app_commands.guild_only()
-    async def signup(self, interaction: discord.Interaction):
-        questionnaire = get_match_signup_questionnaire()
-        result = await self.runner.run(questionnaire, interaction)
-        self.logger.info(result)
+
 

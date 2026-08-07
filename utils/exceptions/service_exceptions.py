@@ -17,16 +17,35 @@ from utils.exceptions._base import BaseError
 class GuildAlreadySetupError(BaseError):
     _message: str = "此伺服器已經初始化過了，若要重新設定請先移除舊設定。"
 
-
 class GuildNotSetupError(BaseError):
     _message: str = "此伺服器尚未初始化，請先使用 /setup 進行設定。"
 
+
+# ---------- Player ----------
 
 class PlayerAlreadyRegisteredError(BaseError):
     _message: str = "已經註冊過了，若要修改資料請使用更新指令。"
 
 class PlayerNotRegisteredError(BaseError):
     _message: str = "尚未註冊，請先使用 /player_registration 註冊。"
+
+
+
+# ---------- Match signup form ----------
+
+class MatchSignupFormAlreadyExistsError(BaseError):
+    _message: str = "此戰役報名表已存在，無法重複建立。"
+
+class MatchSignupFormNotFoundError(BaseError):
+    _message: str = "找不到指定的戰役報名表。"
+
+class InvalidMatchSignupStatusError(BaseError):
+    _message: str = "戰役報名表狀態無效。"
+
+
+
+
+
 
 
 G_SERVICE_EXCEPTIONS = [
