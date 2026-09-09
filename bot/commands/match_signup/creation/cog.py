@@ -7,12 +7,12 @@
 @Desc    : 
 """
 
-from typing import Optional
 import discord
 from discord import app_commands
 
 from bot.core import BaseCog, DiscordQuestionnaireRunner
 from bot.core.permissions import ensure_admin_interaction
+from bot.commands.match_signup.helpers import get_registration_forum
 from config.questionnaire_settings import get_match_signup_creation_questionnaire
 from services.guild_service import GuildService, GuildConfigKeys
 from services.match_signup.form_service import MatchSignupConfigKeys, MatchSignupFormService, MatchSignupThreadStatus
@@ -34,42 +34,7 @@ class MatchSignupAdminGroup(app_commands.Group):
         return True
 
 
-async def get_registration_forum(
-    guild: discord.Guild,
-    registration_forum_id: str | int,
-) -> Optional[discord.ForumChannel]:
-    try:
-        forum_id = int(registration_forum_id)
-    except (TypeError, ValueError):
-        return None
 
-    channel = guild.get_channel(forum_id)
-
-    if channel is None:
-        try:
-            # 快取不存在時，向 Discord API 查詢
-            channel = await guild.fetch_channel(forum_id)
-
-        except discord.NotFound:
-            # 頻道不存在或已被刪除
-            return None
-
-        except discord.Forbidden:
-            # Bot 沒有查看該頻道的權限
-            return None
-
-        except discord.HTTPException:
-            # Discord API 呼叫失敗
-            return None
-
-        # 防止資料庫中的 ID 指向另一個伺服器的頻道
-    if channel.guild.id != guild.id:
-        return None
-
-    if not isinstance(channel, discord.ForumChannel):
-        return None
-
-    return channel
 
 
 class MatchSignupFormCog(BaseCog):
@@ -80,7 +45,7 @@ class MatchSignupFormCog(BaseCog):
 
     match_signup_admin = MatchSignupAdminGroup(
         name="match_signup_admin",
-        description="管理員 建立戰爭報名的相關指令",
+        description="管理戰役報名表",
         guild_only=True,
     )
 
@@ -146,10 +111,7 @@ class MatchSignupFormCog(BaseCog):
         )
 
     @match_signup_admin.command(name="delete", description="刪除報名表")
-    async def delete(
-        self,
-        interaction: discord.Interaction,
-    ):
+    async def delete(self, interaction: discord.Interaction, ):
         guild: discord.Guild = interaction.guild
         registration_forum_id = GuildService.get_config_value(
             guild.id,

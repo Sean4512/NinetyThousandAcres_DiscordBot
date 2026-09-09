@@ -42,6 +42,10 @@ class MatchSignupFormNotFoundError(BaseError):
 class InvalidMatchSignupStatusError(BaseError):
     _message: str = "戰役報名表狀態無效。"
 
+class PlayerAlreadySignupError(BaseError):
+    _message: str = "戰役已經報名"
+
+
 
 
 

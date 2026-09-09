@@ -43,6 +43,8 @@ class GuildInitializedFailedError(BaseError):
 class GuildNotInitializedError(BaseError):
     _message = "此伺服器尚未初始化，請管理員先完成伺服器設定(/setup)。"
 
+class MatchSignupForumThreadRequiredError(BaseError):
+    _message: str = "❌ 請在報名論壇內的報名貼文中執行此指令。"
 
 
 G_DISCORD_EXCEPTIONS = [
